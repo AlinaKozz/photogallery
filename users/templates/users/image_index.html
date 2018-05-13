@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Image Upload</title>
+</head>
+<body>
+
+<script>
+
+
+        $.ajax({
+            type: "GET",
+            url: '/users/images',
+            success: function (response) {
+                console.log('Success');
+
+
+                for (let i = 0; i < response.length; i++) {
+                    $('#upload-form').append(
+                        '<img onclick="xxx()" style="" ' +
+                        'src="' +
+                        response[i]["url"] +
+                        '" ' +
+                        'alt="' +
+                        response[i]["description"] +
+                        '">'
+                    );
+                }
+            }
+        });
+
+        function uploadImage() {
+
+            let image_url = $('#image-url')[0].value;
+            let description = $('#description')[0].value;
+            let user_id = $('#id_user')[0].value;
+
+            $.ajax({
+                type: "POST",
+                url: "/users/images",
+                data: {
+                    'url': image_url,
+                    'description': description,
+                    'user': user_id
+                },
+                success: function (response) {
+                    $('#upload-form').append(
+                        '<img style="width:10%; height: 10%" ' +
+                        'src="' +
+                        image_url +
+                        '" ' +
+                        'alt="' +
+                        description +
+                        '">'
+                    );
+                }
+            });
+        }
+</script>
+
+
+<h1>Upload files here</h1>
+<div id="upload-form">
+    <form method="POST", action="{% url 'image_add' %}">
+        {{ image_form.user }}
+        <input type="button" onclick="uploadImage()" value="Upload">
+        <input name="url" type="url" id="image-url" placeholder="Enter a URL">
+        <input name="description" type="text" id="description" placeholder="Enter a description">
+        <input name="geolocation" type="text" id="geolocation" placeholder="Enter a geolocation">
+        <input name="created_at" type="datetime-local" id="created_at">
+    </form>
+</div>
+</body>
+</html>
