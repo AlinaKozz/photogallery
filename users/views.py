@@ -13,10 +13,6 @@ from users.forms import ImageForm
 from django.contrib import auth
 
 
-# def home(request):
-#     return render(request, 'users/home.html')
-
-
 class UserForm(forms.ModelForm):
     username = dj_forms.CharField(max_length=30)
     password1 = forms.CharField(widget=dj_forms.PasswordInput, label="Password", min_length=6, max_length=15)
@@ -59,14 +55,14 @@ def login(request):
     args.update(csrf(request))
     if request.POST:
         username = request.POST.get('username', '')
-        password = request.POST.get('password1', '')
+        password = request.POST.get('password', '')
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect("/")
+            return redirect("/users/images/index")
         else:
             args['login_error'] = "Пользователь не найден"
-            return render_to_response('users/register.html', args)
+            return render_to_response('users/login.html', args)
     else:
         return render_to_response('users/login.html', args)
 
