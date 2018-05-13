@@ -1,31 +1,21 @@
-{% block login %}
-    <div id="wrap">
-        <div id="regbar">
-            <div id="navthing">
-                <h2><a href="{% url 'login' %}" id="loginform">Login</a> | <a href="{% url 'signup' %}">Signup</a></h2>
-                <div class="login">
-                    <div class="arrow-up"></div>
-                    <div class="formholder">
-                        <div class="randompad">
-                            <form action="{% url 'login' %}" method="POST">
-                                {% csrf_token %}
-                                <fieldset>
-                                    <label for="username">Username</label>
-                                    <input type="text" name="username" id="username">
-                                    <label for="password">Password</label>
-                                    <input type="password" name="password" id="password">
-                                    {% if login_error %}
-                                        <label class="error">{{ login_error }}</label>
-                                    {% endif %}
-                                    <input class="button" type="submit" value="Login">
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{% extends 'photogallery/base.html' %}
+{% block content %}
+    <form class="form-signin" action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <input type="text" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
         </div>
-    </div>
-{% endblock login %}
-</html>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+    </form>
+{% endblock content %}
+
 
