@@ -29,7 +29,6 @@
 
             let image_url = $('#image-url')[0].value;
             let description = $('#description')[0].value;
-            let user_id = $('#id_user')[0].value;
 
             $.ajax({
                 type: "POST",
@@ -37,7 +36,6 @@
                 data: {
                     'url': image_url,
                     'description': description,
-                    'user': user_id
                 },
                 success: function (response) {
                     $('#upload-form').append(
@@ -59,9 +57,7 @@
     <div id="upload-form">
         <form method="POST" , action="{% url 'image_add' %}">
             {% csrf_token %}
-{#            <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="20" height="20">#}
             <h1 class="h3 mb-3 font-weight-normal">Upload files here</h1>
-            {{ image_form.user }}
             <input type="url" id="image-url" name="url" class="form-control" placeholder="URL" required="" autofocus="" size="10">
             <input name="description" type="text" id="description" placeholder="Enter a description">
             <input name="geolocation" type="text" id="geolocation" placeholder="Enter a geolocation">
