@@ -8,5 +8,8 @@ class ImageForm(ModelForm):
     url = CharField(validators=[URLValidator])
 
     class Meta:
+
         model = Image
         fields = ['user', 'description', 'geolocation', 'url']
+
+

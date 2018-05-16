@@ -1,19 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import URLValidator
-from datetime import date
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    description = models.TextField()
-    date_birth = models.DateField(null=True, blank=True)
-    city = models.CharField(max_length=30, blank=True)
-
-    @property
-    def age(self):
-        days_difference = date.today() - self.date_birth
-        return days_difference.days // 365
 
 
 def user_post_save(sender, instance, **kwargs):
