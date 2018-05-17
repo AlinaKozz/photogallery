@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, render_to_response, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login as auth_login, logout
@@ -56,20 +56,18 @@ def logout(request):
 
 
 def index_view(request):
-    # user_images = Image.objects.filter(user=request.user)
-    return render(request, 'users/image_index.html', {})
+    return render(request, 'users/image_index.html')
 
 
 @login_required
+@csrf_exempt
 def images_view(request):
     if request.method == 'POST':
 
         image_url = request.POST['url']
-        description = request.POST['description']
 
         image = Image.objects.create(
             user=request.user,
-            description=description,
             url=image_url
         )
 
@@ -78,5 +76,5 @@ def images_view(request):
         })
 
     elif request.method == 'GET':
-        images = Image.objects.values('id', 'url', 'description')
+        images = Image.objects.filter(user=request.user).values('id', 'url')
     return JsonResponse(list(images), safe=False)

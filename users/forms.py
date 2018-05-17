@@ -41,4 +41,4 @@ class UserCreationForm(forms.ModelForm):
 #     class Meta:
 #         model = Image
 #
-#     fields = ['user', 'description', 'url']
+#     fields = ['user', 'url']

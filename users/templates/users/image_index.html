@@ -1,16 +1,16 @@
 {% extends 'photogallery/base.html' %}
 {% block content %}
+    <meta name="viewport" content="width=device-width, initial-scale=1" xmlns="http://www.w3.org/1999/html">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script>
-
-
         $.ajax({
             type: "GET",
             url: '/users/images',
             success: function (response) {
                 console.log('Success');
-
-
                 for (let i = 0; i < response.length; i++) {
                     $('#upload-form').append(
                         '<img onclick="()" style="" ' +
@@ -26,16 +26,13 @@
         });
 
         function uploadImage() {
-
             let image_url = $('#image-url')[0].value;
-            let description = $('#description')[0].value;
 
             $.ajax({
                 type: "POST",
                 url: "/users/images",
                 data: {
                     'url': image_url,
-                    'description': description,
                 },
                 success: function (response) {
                     $('#upload-form').append(
@@ -44,7 +41,6 @@
                         image_url +
                         '" ' +
                         'alt="' +
-                        description +
                         '">'
                     );
                 }
@@ -58,9 +54,14 @@
         <form method="POST" , action="{% url 'image_add' %}">
             {% csrf_token %}
             <h1 class="h3 mb-3 font-weight-normal">Upload files here</h1>
-            <input type="url" id="image-url" name="url" class="form-control" placeholder="URL" required="" autofocus="" size="10">
-            <input name="description" type="text" id="description" placeholder="Enter a description">
-            <input type="button" onclick="uploadImage()" value="Upload">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-link"></i></span>
+                <input type="url" class="form-control" id="image-url" placeholder="URL" name="url">
+            </div>
+            <div class="form-group">
+                <input type="button" onclick="uploadImage()" value="Upload">
+            </div>
         </form>
     </div>
 {% endblock content %}
+

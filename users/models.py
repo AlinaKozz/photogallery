@@ -16,5 +16,4 @@ models.signals.post_save.connect(user_post_save, sender=User)
 
 class Image(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.TextField()
     url = models.URLField(null=True, validators=[URLValidator])
